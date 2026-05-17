@@ -1,0 +1,9 @@
+Command: cmake -G Ninja -B /home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_02/build -DPYTHON_DEPS_CHECKED=1 -DPYTHON=/home/simonque/.espressif/python_env/idf6.1_py3.12_env/bin/python -DESP_PLATFORM=1 -DCCACHE_ENABLE=False /home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_02
+Configuration Report               
+ ───────────────────────────────── 
+   Parser Version: 1               
+   Verbosity: default              
+   Defaults policy: sdkconfig      
+   Status: Finished successfully   
+                                   
+ ───────────────────────────────── 

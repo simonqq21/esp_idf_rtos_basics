@@ -1,0 +1,2 @@
+source /home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_04/build/gdbinit/symbols
+source /home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_04/build/gdbinit/connect
