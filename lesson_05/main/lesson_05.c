@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "freertos/queue.h"
+// #include "freertos/FreeRTOS.h"
+// #include "freertos/task.h"
+// #include "freertos/queue.h"
 #include "driver/gpio.h"
 #include "driver/uart.h"
 #include "esp_log.h"
@@ -32,7 +32,7 @@ encapsulates the string and this number.
 #define UART_BAUD_RATE 115200
 #define LED_BLINK_LIMIT 100
 #define BUF_SIZE 1024
-#define BLINK_GPIO 2
+#define LED_GPIO 2
 #define BLINK_MAX 100
 #define MSG_BUF_SIZE 20
 
@@ -63,9 +63,9 @@ typedef struct
 
 static void configure_gpio(void)
 {
-    ESP_LOGI(LED_TAG, "LED GPIO %d\n", BLINK_GPIO);
-    gpio_reset_pin(BLINK_GPIO);
-    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
+    ESP_LOGI(LED_TAG, "LED GPIO %d\n", LED_GPIO);
+    gpio_reset_pin(LED_GPIO);
+    gpio_set_direction(LED_GPIO, GPIO_MODE_OUTPUT);
 }
 
 static void configure_uart(void)
@@ -190,7 +190,7 @@ static void task_2(void *params)
             blink_counter_incremental++;
             vTaskDelay(led_delay / portTICK_PERIOD_MS);
         }
-        gpio_set_level(BLINK_GPIO, led_state);
+        gpio_set_level(LED_GPIO, led_state);
 
         // // if blinked n times, send a message to the other task
         if (blink_counter_incremental >= LED_BLINK_LIMIT)

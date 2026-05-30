@@ -22,7 +22,7 @@ static const char *UART_TAG = "UART TEST";
 /**
  * KConfig configuration
  */
-#define BLINK_GPIO CONFIG_BLINK_GPIO
+#define LED_GPIO CONFIG_BLINK_GPIO
 __uint16_t blink_interval = CONFIG_BLINK_INTERVAL;
 #define UART_PORT_NUM CONFIG_UART_PORT_NUM
 #define UART_BAUD_RATE CONFIG_UART_BAUD_RATE
@@ -33,9 +33,9 @@ static uint8_t led_state = 0;
 
 static void configure_gpio(void)
 {
-    ESP_LOGI(LED_TAG, "LED GPIO %d\n", BLINK_GPIO);
-    gpio_reset_pin(BLINK_GPIO);
-    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
+    ESP_LOGI(LED_TAG, "LED GPIO %d\n", LED_GPIO);
+    gpio_reset_pin(LED_GPIO);
+    gpio_set_direction(LED_GPIO, GPIO_MODE_OUTPUT);
 }
 
 static void blink_LED_task(void *params)
@@ -56,7 +56,7 @@ static void blink_LED_task(void *params)
             /* Toggle the LED state */
             led_state = !led_state;
         }
-        gpio_set_level(BLINK_GPIO, led_state);
+        gpio_set_level(LED_GPIO, led_state);
     }
 }
 
