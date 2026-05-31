@@ -26,13 +26,13 @@ goes out of scope (the value given by delay_arg).
 #define INPUT_TAG "UART_INPUT"
 #define UART_PORT_NUM 0
 #define UART_BAUD_RATE 115200
+#define UART_BUF_SIZE 1024
 #define LED_BLINK_LIMIT 100
-#define BUF_SIZE 1024
 #define LED_GPIO 2
 #define BLINK_MAX 100
 #define MSG_BUF_SIZE 20
 
-char buf[BUF_SIZE];
+char buf[UART_BUF_SIZE];
 
 // mutex
 static SemaphoreHandle_t mutex;
@@ -89,7 +89,7 @@ static void configure_uart(void)
     };
     int intr_alloc_flags = 0;
 
-    ESP_ERROR_CHECK(uart_driver_install(UART_PORT_NUM, BUF_SIZE * 2, 0, 0, NULL, intr_alloc_flags));
+    ESP_ERROR_CHECK(uart_driver_install(UART_PORT_NUM, UART_BUF_SIZE * 2, 0, 0, NULL, intr_alloc_flags));
     ESP_ERROR_CHECK(uart_param_config(UART_PORT_NUM, &uart_config));
     /**
      * If you want to use USB, set TXD to 1 and RXD to 3.
@@ -115,7 +115,7 @@ void app_main(void)
 
     do
     {
-        len = uart_read_bytes(UART_PORT_NUM, buf, BUF_SIZE - 1, 1000 / portTICK_PERIOD_MS);
+        len = uart_read_bytes(UART_PORT_NUM, buf, UART_BUF_SIZE - 1, 1000 / portTICK_PERIOD_MS);
     } while (len == 0);
 
     if (len)
@@ -146,6 +146,7 @@ void app_main(void)
     }
 
     /*
-    A mutex cannot be taken and given from two different tasks. It will result in runtime errors.
+    A mutex cannot be taken from one task and then given from a different task. It will result in runtime errors.
+    A mutex can be taken ang given within the same task, then taken and given from a different task.
     */
 }

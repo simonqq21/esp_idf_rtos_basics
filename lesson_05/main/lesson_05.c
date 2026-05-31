@@ -31,7 +31,7 @@ encapsulates the string and this number.
 #define UART_PORT_NUM 0
 #define UART_BAUD_RATE 115200
 #define LED_BLINK_LIMIT 100
-#define BUF_SIZE 1024
+#define UART_BUF_SIZE 1024
 #define LED_GPIO 2
 #define BLINK_MAX 100
 #define MSG_BUF_SIZE 20
@@ -82,7 +82,7 @@ static void configure_uart(void)
     };
     int intr_alloc_flags = 0;
 
-    ESP_ERROR_CHECK(uart_driver_install(UART_PORT_NUM, BUF_SIZE * 2, 0, 0, NULL, intr_alloc_flags));
+    ESP_ERROR_CHECK(uart_driver_install(UART_PORT_NUM, UART_BUF_SIZE * 2, 0, 0, NULL, intr_alloc_flags));
     ESP_ERROR_CHECK(uart_param_config(UART_PORT_NUM, &uart_config));
     /**
      * If you want to use USB, set TXD to 1 and RXD to 3.
@@ -102,14 +102,14 @@ static void task_1(void *params)
     ESP_LOGI(TASK1_TAG, "Running");
 
     // char c;
-    char buf[BUF_SIZE];
+    char buf[UART_BUF_SIZE];
     int len;
     char rcv_msg[MSG_BUF_SIZE];
     int32_t delay = 0;
 
     while (1)
     {
-        len = uart_read_bytes(UART_PORT_NUM, buf, BUF_SIZE - 1, 20 / portTICK_PERIOD_MS);
+        len = uart_read_bytes(UART_PORT_NUM, buf, UART_BUF_SIZE - 1, 20 / portTICK_PERIOD_MS);
         if (len)
         {
             // return message to user
@@ -138,7 +138,7 @@ static void task_1(void *params)
         {
 
             // ESP_LOGI(TASK1_TAG, "%s%d\n", rcv_msg.body, rcv_msg.count);
-            snprintf(buf, BUF_SIZE, "Received from task 2 msg_queue: %s\n", rcv_msg);
+            snprintf(buf, UART_BUF_SIZE, "Received from task 2 msg_queue: %s\n", rcv_msg);
             uart_write_bytes(UART_PORT_NUM, (const char *)buf, strlen(buf));
         }
     }

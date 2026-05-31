@@ -25,7 +25,7 @@ KConfig configuration
 #define UART_PORT_NUM 0
 #define UART_BAUD_RATE 115200
 // CONFIG_BUF_LEN
-#define BUF_SIZE 1024
+#define UART_BUF_SIZE 1024
 
 // pointer to message
 static char *msg_ptr = NULL;
@@ -41,12 +41,12 @@ of heap. It then notifies the second task that a message is ready.
  */
 static void task_1(void *params)
 {
-    char buf[BUF_SIZE];
+    char buf[UART_BUF_SIZE];
     char c;
     size_t num_incoming_bytes;
     uint16_t i;
     // clear entire buffer
-    memset(buf, 0, BUF_SIZE);
+    memset(buf, 0, UART_BUF_SIZE);
 
     while (1)
     {
@@ -61,7 +61,7 @@ static void task_1(void *params)
             uart_read_bytes(UART_PORT_NUM, &c, 1, 20 / portTICK_PERIOD_MS);
             // ESP_LOGI(TASK1_TAG, "c = %c\n", c);
             // check if buffer hasn't overflowed
-            if (i < BUF_SIZE)
+            if (i < UART_BUF_SIZE)
             {
                 // add char to buffer
                 buf[i] = c;
@@ -77,7 +77,7 @@ static void task_1(void *params)
                     // check if msg flag is still in use
                     if (msg_flag == 0)
                     {
-                        msg_ptr = (char *)pvPortMalloc(BUF_SIZE * sizeof(char));
+                        msg_ptr = (char *)pvPortMalloc(UART_BUF_SIZE * sizeof(char));
                         configASSERT(msg_ptr);
                         // copy message
                         i++;
@@ -130,7 +130,7 @@ static void configure_uart(void)
     };
     int intr_alloc_flags = 0;
 
-    ESP_ERROR_CHECK(uart_driver_install(UART_PORT_NUM, BUF_SIZE * 2, 0, 0, NULL, intr_alloc_flags));
+    ESP_ERROR_CHECK(uart_driver_install(UART_PORT_NUM, UART_BUF_SIZE * 2, 0, 0, NULL, intr_alloc_flags));
     ESP_ERROR_CHECK(uart_param_config(UART_PORT_NUM, &uart_config));
     /**
      * If you want to use USB, set TXD to 1 and RXD to 3.

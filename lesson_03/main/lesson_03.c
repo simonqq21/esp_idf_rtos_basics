@@ -17,7 +17,7 @@ the user interface to run concurrently with the control task (the blinking LED).
  */
 static const char *LED_TAG = "LED TEST";
 static const char *UART_TAG = "UART TEST";
-#define BUF_SIZE (1024)
+#define UART_BUF_SIZE (1024)
 
 /**
  * KConfig configuration
@@ -62,7 +62,7 @@ static void blink_LED_task(void *params)
 
 static void UART_task(void *params)
 {
-    char *data = (char *)malloc(BUF_SIZE);
+    char *data = (char *)malloc(UART_BUF_SIZE);
     /* Configure parameters of an UART driver,
      * communication pins and install the driver */
     uart_config_t uart_config = {
@@ -75,7 +75,7 @@ static void UART_task(void *params)
     };
     int intr_alloc_flags = 0;
 
-    ESP_ERROR_CHECK(uart_driver_install(UART_PORT_NUM, BUF_SIZE * 2, 0, 0, NULL, intr_alloc_flags));
+    ESP_ERROR_CHECK(uart_driver_install(UART_PORT_NUM, UART_BUF_SIZE * 2, 0, 0, NULL, intr_alloc_flags));
     ESP_ERROR_CHECK(uart_param_config(UART_PORT_NUM, &uart_config));
     /**
      * If you want to use USB, set TXD to 1 and RXD to 3.
@@ -85,7 +85,7 @@ static void UART_task(void *params)
     while (1)
     {
         // Read data from the UART
-        int len = uart_read_bytes(UART_PORT_NUM, data, (BUF_SIZE - 1), 20 / portTICK_PERIOD_MS);
+        int len = uart_read_bytes(UART_PORT_NUM, data, (UART_BUF_SIZE - 1), 20 / portTICK_PERIOD_MS);
         // Write data back to the UART
         uart_write_bytes(UART_PORT_NUM, (const char *)data, len);
         // if data valid
@@ -108,7 +108,7 @@ void app_main(void)
                             0);
     xTaskCreatePinnedToCore(UART_task,
                             "UART",
-                            BUF_SIZE * 2,
+                            UART_BUF_SIZE * 2,
                             NULL,
                             1,
                             NULL,
