@@ -1,7 +1,7 @@
 {
     "version":            "1.3",
     "project_name":       "lesson_07",
-    "project_version":    "2aeeafd",
+    "project_version":    "ed276fa-dirty",
     "project_path":       "/home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_07",
     "idf_path":           "/home/simonque/Documents/code/esp-idf",
     "build_dir":          "/home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_07/build",
