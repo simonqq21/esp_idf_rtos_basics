@@ -122,12 +122,17 @@ static void UART_CLI_task(void *param)
         if (len)
         {
             // Process the command
+            // clear UART tx buffer
             memset(tx_buf, 0, UART_BUF_SIZE);
+            // print to UART tx buffer
             snprintf(tx_buf, 1024, "CLI_IN: %.1014s", rx_buf); // 1023 - 7 - 1 - 1 = 1014 characters left
-            // ESP_LOGI("CLI", "%d\n", strlen(tx_buf));
+            // transmit UART tx buffer
             uart_write_bytes(UART_PORT_NUM, tx_buf, strlen(tx_buf));
+            // clear UART rx buffer
             memset(rx_buf, 0, UART_BUF_SIZE);
+            // bright backlight
             bright_backlight();
+            // start backlight dimming timer
             xTimerStart(one_shot_timer, portMAX_DELAY);
         }
     }
