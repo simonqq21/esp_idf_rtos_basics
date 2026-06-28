@@ -1,0 +1,24 @@
+Command: ninja all
+[1/9] Performing build step for 'bootloader'
+[1/1] cd /home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_07/build/bootloader && /home/simonque/.espressif/python_env/idf6.1_py3.12_env/bin/python /home/simonque/Documents/code/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_07/build/bootloader/bootloader.bin
+Bootloader binary size 0x6610 bytes. 0x9f0 bytes (9%) free.
+[2/9] No install step for 'bootloader'
+[3/9] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/lesson_07.c.obj
+/home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_07/main/lesson_07.c:52:50: warning: 'empty_slots_semaphore' defined but not used [-Wunused-variable]
+   52 | static SemaphoreHandle_t filled_slots_semaphore, empty_slots_semaphore;
+      |                                                  ^~~~~~~~~~~~~~~~~~~~~
+/home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_07/main/lesson_07.c:52:26: warning: 'filled_slots_semaphore' defined but not used [-Wunused-variable]
+   52 | static SemaphoreHandle_t filled_slots_semaphore, empty_slots_semaphore;
+      |                          ^~~~~~~~~~~~~~~~~~~~~~
+[4/9] Linking C static library esp-idf/main/libmain.a
+[5/9] Completed 'bootloader'
+[6/9] Generating esp-idf/esp_system/ld/sections.ld
+[7/9] Linking CXX executable lesson_07.elf
+[8/9] Generating binary image from built executable
+esptool v5.2.dev3
+Creating ESP32 image...
+Merged 2 ELF sections.
+Successfully created ESP32 image.
+Generated /home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_07/build/lesson_07.bin
+[9/9] cd /home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_07/build && /home/simonque/.espressif/python_env/idf6.1_py3.12_env/bin/python /home/simonque/Documents/code/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_07/build/partition_table/partition-table.bin /home/simonque/Documents/code/esp-idf-projects/learn_freeRTOS/lesson_07/build/lesson_07.bin
+lesson_07.bin binary size 0x27270 bytes. Smallest app partition is 0x100000 bytes. 0xd8d90 bytes (85%) free.
